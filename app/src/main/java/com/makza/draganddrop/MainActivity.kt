@@ -6,6 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -49,7 +52,20 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     ) {
-
+                        LongPressDraggable(
+                            modifier = Modifier
+                                .fillMaxSize()
+                        ) {
+                            LazyColumn(
+                                modifier = Modifier.fillMaxSize(),
+                                contentPadding = PaddingValues(horizontal = 10.dp)
+                            ){
+                                items(items = foodList){ food ->
+                                    FoodItemCard(foodItem = food)
+                                }
+                            }
+                            PersonListContainer()
+                        }
                     }
                 }
             }
@@ -167,6 +183,28 @@ fun PersonCard(
                     color = Color.Black
                 )
             }
+        }
+    }
+}
+
+
+@Composable
+fun BoxScope.PersonListContainer(){
+    LazyRow(
+        modifier = Modifier
+            .fillMaxHeight(0.3f)
+            .fillMaxWidth()
+            .background(
+                Color.LightGray,
+                shape = RoundedCornerShape(topEnd = 10.dp, topStart = 10.dp)
+            )
+            .padding(vertical = 10.dp)
+            .align(Alignment.BottomCenter),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
+    ){
+        items(items = persons){ person ->
+            PersonCard(person = person)
         }
     }
 }
